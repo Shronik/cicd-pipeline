@@ -13,6 +13,6 @@ public class TestGameService {
 	public void testGame() {
 		GameService gs = new GameService();
 		System.out.println("game");
-		Assertions.assertEquals(gs.sayHello(), "game");
+		Assertions.assertEquals(gs.sayHello(), "Gaming phones List");
 	}
 }
