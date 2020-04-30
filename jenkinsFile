@@ -14,23 +14,27 @@ node{
         sh "${mvnCMD} package"
     }
     
-    stage ('building docker image'){
+    stage('building docker image'){
         sh 'docker build -t shronik/cicd:1.0 .'
     }
     
-    stage ('pushing docker image'){
+    stage('pushing docker image'){
         withCredentials([String(credentialsId:'dockerPwd', variable: 'pass')]) {
         sh "docker login -u shronik -p ${pass}"
         }
         sh 'docker push shronik/cicd:1.0'
     }
     
-    stage ('pulling docker image'){
+    stage('pulling docker image'){
         sh 'docker pull shronik/cicd:1.0'
     }
     
     stage('running docker image'){
         sh 'docker run -p 8888:8080 -d shronik/cicd:1.0'
+    }
+    
+    stage('deploying war file to tomcat locally'){
+    	sh 'cp target/cicd-pipelinne.war /usr/local/tomcat/webapps/ROOT.war'
     }
     
 }
